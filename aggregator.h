@@ -6,7 +6,8 @@
 class Aggregator {
 private:
     std::string fileName_;
-    std::unordered_map<std::string, int> functionCounts_;
+    std::unordered_map<std::string, std::uint64_t> selfCounts_;
+    std::unordered_map<std::string, std::uint64_t> totalCounts_;
 public:
     // Constructor
     Aggregator(std::string fileName);
