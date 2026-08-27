@@ -1,4 +1,5 @@
 #include "aggregator.h"
+#include "sampler.h"
 #include <iostream>
 
 int main(int argc, char** argv) {
@@ -7,6 +8,8 @@ int main(int argc, char** argv) {
         std::cerr << "Usage: ./strobe [filename]" << "\n";
         return 1;
     }
+
+    Sampler sampler("output");
 
     std::cout << "Starting main on file: " << argv[1] << "\n";
 
