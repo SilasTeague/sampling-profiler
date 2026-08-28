@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    # macOS 14+ runners are Apple silicon. sampler.cpp is arm64-only
+    # (arm_thread_state64_get_pc, Mach thread state), so an Intel runner
+    # would not compile it.
+    runs-on: macos-14
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, RelWithDebInfo]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          clang++ --version
+          cmake --version
+          uname -m
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+      - name: Build
+        run: cmake --build build -j
+
+      # Both tests are timing-based: they arm a SIGPROF timer and check the
+      # distribution of samples. CI runners are shared and virtualized, so if
+      # these ever flake it is worth checking the reported sample count before
+      # suspecting the sampler -- test_sampler_accuracy fails fast when it
+      # collects fewer than 200 samples.
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+  build-makefile:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: make + make test
+        run: |
+          make
+          make test
