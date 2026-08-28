@@ -1,1 +1,4 @@
 strobe
+tests/test_sampler_accuracy
+tests/*.dSYM
+tests/sampler_accuracy_output.txt
