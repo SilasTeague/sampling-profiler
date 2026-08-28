@@ -4,3 +4,4 @@ tests/test_leaf_visibility
 *.dSYM
 tests/*.dSYM
 tests/*_output.txt
+build/
