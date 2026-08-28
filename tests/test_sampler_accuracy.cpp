@@ -39,7 +39,7 @@ std::map<std::string, int> count_self_samples(const std::string& path) {
     std::ifstream in(path);
     std::string line;
     while (std::getline(in, line)) {
-        std::string self = line.substr(0, line.find(';'));
+        std::string self = line.substr(line.find_last_of(';') + 1);
         for (const char* name : {"func_a", "func_b", "func_c"}) {
             if (self.find(name) != std::string::npos) {
                 counts[name]++;

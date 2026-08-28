@@ -25,14 +25,14 @@ void Aggregator::processFile() {
         // Create variable for "function" tokens to be held
         std::string function;
         // Break line up by instances of delimiter
+        std::string leaf;
         while (std::getline(ss, function, ';')) {
-            auto it = functions.find(function);
-            if (it == functions.end()) {
-                functions.insert(function);
+            leaf = function;
+            if (functions.insert(function).second) {
                 totalCounts_[function]++;
             }
         }
-        selfCounts_[function]++;
+        if (!leaf.empty()) selfCounts_[leaf]++;
     }
 }
 
