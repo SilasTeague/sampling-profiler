@@ -1,4 +1,6 @@
 strobe
 tests/test_sampler_accuracy
+tests/test_leaf_visibility
+*.dSYM
 tests/*.dSYM
-tests/sampler_accuracy_output.txt
+tests/*_output.txt
